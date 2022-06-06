@@ -1,0 +1,82 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $('.btn').on('click', function () {
+            if ($(this).val().toLowerCase() == 'save') {
+                $("#lblText").html('Record saved successfully.');
+            }
+            else if ($(this).val().toLowerCase() == 'update') {
+                $("#lblText").html('Record updated successfully.');
+            }
+            else if ($(this).val().toLowerCase() == 'delete') {
+                $("#lblText").html('Record deleted successfully.');
+            }
+            $('#dialog').fadeIn('slow').delay(1000).fadeOut('slow');
+        });
+    });
+</script>
+<div class="row">
+    <div class="col-12">
+        <h5 style="text-align: center;">Search by Categories</h5>
+    </div>
+    <div class="col-12 d-flex justify-content-center align-items-center">
+        <a class="mx-2" href="{% url 'home' %}">All</a>
+        {% for i in category %}
+
+        <a class="mx-2" href="{% url 'home' %}?q={{i.category}}">
+            {{i.category}}
+        </a>
+        {% endfor %}
+
+    </div>
+</div>
+<hr>
+<div class="album py-2 bg-light">
+    <div class="container">
+        <h3 class="p-2">Items: </h3>
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 my-3">
+            {% for item in items %}
+            <div class="col">
+                <div class="card shadow-sm">
+                    <div style="height: 220;">
+                        <img src="{{item.photo.url}}" width="100%" height="100%">
+                    </div>
+                    <div class="card-body">
+                        <h4>{{item.title}}</h4>
+                        {% for cat in item.category.all %}
+                        <span class="badge bg-primary">{{cat.category}}</span>
+                        {% endfor %}
+                        <div class="d-flex justify-content-between align-items-center my-2">
+                            Status: {{item.status}}<br>
+                            Price: {{item.price}}
+                            <div class="btn-group">
+                                <a href="{% url 'item-detail' item.id %}"
+                                    class="btn btn-sm btn-outline-success">View</a>
+                                {% if request.user.is_admin %}
+                                    <a href="{% url 'update-item' item.id %}" class="btn btn-sm btn-outline-primary">
+                                        Edit
+                                    </a>
+                                    <a href="{% url 'delete-item' item.id %}" class="btn btn-sm btn-outline-primary">
+                                        Delete
+                                    </a>
+                                {% else %}
+                                    {% if not item.status == 'Retired' %}
+                                    <a href="{% url 'addToCart' item.id %}" class="btn btn-sm btn-outline-primary">Add to
+                                        cart
+                                    </a>
+                                    {% endif %}
+                                {% endif %}
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

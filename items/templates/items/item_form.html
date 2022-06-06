@@ -1,0 +1,26 @@
+{% extends 'main.html' %}
+{% load widget_tweaks %}
+{% block content %}
+{% load cloudinary %}
+<h1>Item Form   </h1>
+{% if item %}
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% for field in form %}
+    <div class="form-group">
+        <label>{{ field.label }}</label>
+        {% render_field field class="form-control" %}
+        <small style="color: red">
+            {{ field.errors }}
+        </small>
+    </div>
+    {% endfor %}
+    <div class="form-group my-2">
+        <input class="btn btn-primary" type="submit" value="Save">
+        <a class="btn btn-success" href="{% url 'dashboard' %}">Back</a>
+    </div>  
+</form>
+{% else % }
+<h2>No item</h2>
+{% endif %}
+{% endblock content %}

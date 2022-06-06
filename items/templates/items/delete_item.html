@@ -1,0 +1,13 @@
+{% extends 'main.html' %}
+
+{% block content %}
+{% if object %}
+    <form method="post">
+        {% csrf_token %}
+        <h5>Are you sure you want to delete "{{ object }}"?</h5><br>
+        <input type="submit" value="Confirm"> <a href="{% url 'home' %}">Cancel</a>
+    </form>
+{% else %}
+<h2>No item</h2>
+{% endif %}
+{% endblock content %}

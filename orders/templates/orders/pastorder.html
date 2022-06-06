@@ -1,0 +1,50 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<div>
+    <h1>User Details</h1>
+    <h5>Email: {{user.email}}</h5>
+    <h5>Full name: {{user.full_name}}</h5>
+    {% if user.display_name != None %}
+    <h5>Display name: {{user.display_name}}</h5>
+    {% endif %}
+    <br>
+    <hr>
+    <h1>Recent Orders</h1>
+    {% if recent_order != None %}
+    <main>
+        <div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Order ID</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Order Total</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Status Changed</th>
+                        <th scope="col">Detail</th>
+                    </tr>
+                </thead>
+                {% for order in recent_order %}
+                <tbody>
+                    <tr>
+                        <td>{{order.id}}</td>
+                        <td>{{order.order_time}}</td>
+                        <td>{{order.total}}</td>
+                        <td>{{order.status}}</td>
+                        <td>{{order.status_updated}}</td>
+                        <td><a href="{% url 'pastOrderDetail' order.id %}">View Details</a></td>
+                    </tr>
+                </tbody>
+                {% endfor %}
+            </table>
+        </div>
+    </main>
+    {% else %}
+    <p>There is no recent order</p>
+    {% endif %}
+    <a href="{% url 'home' %}" class="btn btn-primary cart-btn-transform m-1" data-abc="true">
+        Home
+    </a>
+</div>
+{% endblock content %}

@@ -1,0 +1,52 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<div>
+    <div class="container mt-5 mb-5">
+        <div class="d-flex justify-content-center row">
+            <div class="col-md-8">
+                <hr>
+                {% for item in cart_item %}
+                <div class="d-flex flex-row justify-content-between align-items-center p-2 bg-white mt-4 px-3 rounded">
+                    <div class="mr-1">
+                        <a href="{% url 'item-detail' item.id %}">
+                            <img class="rounded" src="{{item.item_id.photo.url}}" width="70" height="70">
+                        </a>
+                    </div>
+                    <div class="d-flex flex-column align-items-center product-details">
+                        <span>
+                            <a href="{% url 'item-detail' item.id %}">
+                                Title:
+                                {{item.item_id}}
+                            </a>
+                        </span>
+                        <div class="d-flex flex-row product-desc">
+                        </div>
+                    </div>
+                    <div class="d-flex flex-row align-items-center qty">
+                        Quantity: {{item.quantity}}
+                    </div>
+                    <div>
+                        <span>
+                            Unit Price: {{item.item_id.price}}rs
+                        </span>
+                    </div>
+                    <div>
+                        <span>
+                            Total: {{item.get_item_total}}rs
+                        </span>
+                    </div>
+                </div>
+                {% endfor %}
+                <hr>
+                <div class="d-flex flex-row align-items-center mt-3 p-2 bg-white rounded">
+                    <a href="{% url 'dashboard-past-order' user %}" class="btn btn-primary cart-btn-transform m-2"
+                        data-abc="true">
+                        Go back
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

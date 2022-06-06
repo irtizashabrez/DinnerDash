@@ -1,0 +1,30 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<div class="container h-100">
+    <div class="d-flex justify-content-center h-100">
+        <div class="user_card">
+            <div class="d-flex justify-content-center">
+
+                <h1 class="h3 mb-3 fw-normal">Please Register Account</h1>
+            </div>
+            <div class="d-flex justify-content-center form_container">
+
+                <form method="POST">
+                    {% csrf_token %}
+                    {{form.as_p}}
+                    <div class="d-flex justify-content-center mt-3 login_container">
+
+                        <button class="w-100 btn btn-lg btn-primary" type="submit">Register Account</button>
+                    </div>
+                </form>
+            </div>
+            {{form.errors}}
+
+            <div class="d-flex justify-content-center">
+                <span> Already have an account? <a href="{% url 'login' %}">Login</a></span>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
